@@ -42,6 +42,13 @@ không chỉ nhìn đèn nháy suy đoán).
 
 ## Giải thích cơ chế
 
+- Ban đầu CubeMX sinh code không có phần khởi tạo GPIOD/PD11, dù đã gán LED_B vào
+  PD11 ở bước pinout. Nguyên nhân: mỗi tài nguyên phần cứng trên chip 2 lõi (STM32MP1)
+  phải được "gán quyền sở hữu" cho đúng 1 lõi qua **Pin Context Assignment** — mặc
+  định để "Free" thì CubeMX không sinh code init cho project nào cả (tránh xung đột
+  A7/M4 cùng cấu hình 1 chân). Sửa: đổi Pin Context Assignment của PD11 từ "Free"
+  sang "Cortex-M4 FW", generate lại code — lúc đó `__HAL_RCC_GPIOD_CLK_ENABLE()` và
+  `HAL_GPIO_Init()` mới xuất hiện trong `main.c`.
 - STM32MP157 là chip 2 lõi (Cortex-A7 x2 chạy Linux + Cortex-M4 bare-metal). Cả 2 lõi
   chia sẻ cùng silicon nhưng M4 chạy code hoàn toàn tách biệt (RAM riêng, không đụng
   tới GPIO của A7 trong bài này).
