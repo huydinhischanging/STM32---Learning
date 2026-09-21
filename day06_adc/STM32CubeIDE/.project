@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>day06_adc</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>com.st.stm32cube.ide.mcu.MCUProjectNature</nature>
+		<nature>com.st.stm32cube.ide.mcu.MCURootProjectNature</nature>
+		<nature>com.st.stm32cube.ide.mcu.MCUCubeIdeServicesRevAev2ProjectNature</nature>
+		<nature>com.st.stm32cube.ide.mcu.MCUNonUnderRootProjectNature</nature>
+		<nature>com.st.stm32cube.ide.mcu.MCUCubeProjectNature</nature>
+		<nature>com.st.stm32cube.ide.mcu.MCUSingleCpuProjectNature</nature>
+		<nature>com.st.stm32cube.ide.mpu.MPUEmbeddedMCUProjectNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>day06_adc.ioc</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/day06_adc.ioc</locationURI>
+		</link>
+		<link>
+			<name>CA7/DeviceTree</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/CA7/DeviceTree</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
