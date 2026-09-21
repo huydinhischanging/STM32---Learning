@@ -44,10 +44,18 @@ trạng thái chương trình qua đèn LED nháy.
    chẩn đoán nhưng gây nhiễu**: nghi ngờ firmware cũ còn sót (loại bỏ bằng
    cách so khớp MD5 file .elf), nghi crash-loop (loại bỏ bằng dmesg timestamp
    cho thấy chỉ boot 1 lần), nghi watchdog (loại bỏ vì không cấu hình
-   IWDG2/WWDG). **Không tìm ra nguyên nhân**, cuối cùng bỏ qua tín hiệu LED này
-   hoàn toàn, chuyển hẳn sang xác minh trực tiếp bằng UART — đây là bài học
-   quan trọng: **đèn LED không phải lúc nào cũng là kênh debug đáng tin cậy**,
-   nhất là khi bản thân cơ chế điều khiển nó chưa được xác minh độc lập.
+   IWDG2/WWDG). Lúc đó **chưa tìm ra nguyên nhân**, nên bỏ qua tín hiệu LED này
+   và chuyển sang xác minh trực tiếp bằng UART.
+   **Cập nhật (phát hiện ở Day 5):** nguyên nhân rất có thể là **Linux (nhân A7)
+   đang điều khiển PD11 làm đèn `heartbeat`**. Trên board: thư mục
+   `/sys/class/leds/heartbeat` có trigger `[heartbeat]`, và
+   `/sys/kernel/debug/gpio` ghi `gpio-571 (PD11 |heartbeat) out lo`. Linux liên tục
+   nháy chân này theo nhịp tim nên ghi đè lên giá trị M4 đặt. Chưa kiểm chứng riêng
+   với firmware Day 3 (chưa thử tắt trigger rồi xem LED có đứng yên không), nhưng
+   phần cứng và Linux giống nhau nên khả năng cao đây là nguyên nhân.
+   Bài học: **đèn LED không phải lúc nào cũng là kênh debug đáng tin cậy** khi chân
+   đó còn bị nhân kia (Linux) điều khiển; và khi cần, kiểm tra Linux đang giữ chân
+   nào bằng `/sys/kernel/debug/gpio`.
 
 4. **Đo bằng đồng hồ vạn năng (multimeter) trên D0/D1 luôn ra 3.58V cố định,
    bất kể firmware có chạy hay không** — tưởng là mạch lỗi, nhưng thực chất do
@@ -98,9 +106,8 @@ trạng thái chương trình qua đèn LED nháy.
   remoteproc/SSH để nạp code.
 - Tồn đọng từ Day 2: chưa hiểu vì sao kênh RPMsg tạo được nhưng không truyền
   được dữ liệu.
-- Tìm hiểu tiếp vì sao LED_B nháy dù code set cố định (Day 3) — có thể liên
-  quan đến việc chưa hiểu rõ cơ chế Pin Context Assignment ảnh hưởng lên GPIO
-  chia sẻ giữa 2 nhân.
+- Kiểm chứng nguyên nhân LED_B nháy: chạy `echo none > /sys/class/leds/heartbeat/trigger`
+  trên board rồi xem LED_B có đứng yên theo code không (xem mục 3 phần Vấn đề).
 
 ## Kết quả
 Đọc được text debug thật qua UART7 (PE7/PE8 = D0/D1) trên PC, qua module
