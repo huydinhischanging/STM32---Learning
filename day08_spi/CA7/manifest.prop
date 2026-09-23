@@ -1,0 +1,5 @@
+MANIFEST_VERSION = openstlinux-6.6-yocto-scarthgap-mpu-v26.06.10
+KERNEL_DT = ./DeviceTree/day08_spi/kernel
+OPTEE_DT = ./DeviceTree/day08_spi/optee-os
+UBOOT_DT = ./DeviceTree/day08_spi/u-boot
+TFA_DT = ./DeviceTree/day08_spi/tf-a
